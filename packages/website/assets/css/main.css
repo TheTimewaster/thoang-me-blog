@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+@theme {
+  --default-font-family: var(--font-sans);
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Gloock', serif;
+
+  --color-peach: oklch(93.27% 0.034 31);
+  --color-lavender: oklch(53% 0.2625 283.01);
+  --color-lavender-dark: oklch(21.46% 0.1268 278.77);
+  --color-lavender-extra-dark: oklch(16.59% 0.095 282.48);
+
+  --color-mint: oklch(87.28% 0.1893 159.97);
+  --color-orange: oklch(68.82% 0.1886 33.2);
+  --color-lemon: oklch(92.47% 0.1574 102.75);
+}

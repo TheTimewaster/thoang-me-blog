@@ -1,0 +1,20 @@
+{
+  "name": "thoang-me-blog-mono",
+  "version": "1.0.0",
+  "description": "Monorepo for thoang.me blog",
+  "author": "Tu Hoang <mail@thoang.me>",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "prettier": "3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "typescript": "5.5.3",
+    "typescript-eslint": "^8.21.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
