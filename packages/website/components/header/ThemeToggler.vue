@@ -1,6 +1,6 @@
 <template>
-  <BButton>
-    <div class="relative h-8 w-8 overflow-hidden" type="button" @click="() => toggleDark()">
+  <BButton @click="() => toggleDark()">
+    <div class="relative h-8 w-8 overflow-hidden" type="button">
       <Transition
         enter-from-class="translate-y-full rotate-90"
         enter-active-class="transition-transform duration-500 ease-in-out"
@@ -48,8 +48,6 @@ import BButton from '~/components/common/BButton.vue';
 const darkMode = useDark({
   initialValue: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
 });
-
-console.log(darkMode.value);
 
 const toggleDark = () => {
   darkMode.value = !darkMode.value;

@@ -22,7 +22,8 @@ export default defineNuxtConfig({
         },
       ],
       bodyAttrs: {
-        class: 'bg-peach text-lavender-extra-dark dark:bg-lavender-extra-dark dark:text-peach px-4 transition-colors',
+        class:
+          'bg-peach text-lavender-extra-dark dark:bg-lavender-extra-dark dark:text-peach md:px-8 px-4 xl:px-16 transition-colors',
       },
     },
   },
@@ -40,7 +41,7 @@ export default defineNuxtConfig({
 
   css: ['./assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
-  modules: ['@vueuse/nuxt', '@nuxtjs/sanity'],
+  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,

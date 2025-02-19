@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="header fixed left-0 right-0 top-0 flex items-center gap-4 transition-colors"
+    class="header fixed left-0 right-0 top-0 z-10 flex items-center gap-4 transition-all"
     :class="{
       'bg-peach/20 dark:bg-lavender-extra-dark/20 backdrop-blur-[40px]': scrollY > 0,
     }"

@@ -2,9 +2,9 @@
   <NuxtLayout name="blog-index">
     <span v-if="mainArticle == null"> Whoops! Something went wrong. Please try again later. </span>
 
-    <div v-else class="grid grid-cols-1 gap-4 gap-y-8 lg:grid-cols-4 lg:grid-rows-3 lg:gap-8">
+    <ul v-else class="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:grid-rows-3 xl:gap-16">
       <BlogIndexArticleCard
-        class="col-span-1 lg:col-span-3 lg:row-span-3"
+        class="col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-3"
         :date="mainArticle.publishedAt.toLocaleString()"
         :image="urlFor(mainArticle.thumbnail)?.format('webp').width(500).height(500).url()"
         :slug="mainArticle.slug.current"
@@ -18,7 +18,7 @@
         title="Article 2"
         dark
         small
-        class="lg:col-start-4 lg:row-start-1"
+        class="md:col-start-1 lg:col-start-4 lg:row-start-1"
       />
 
       <BlogIndexArticleCard
@@ -26,7 +26,7 @@
         slug="article-3"
         title="Article 3"
         small
-        class="lg:col-start-4 lg:row-start-2"
+        class="md:col-start-2 lg:col-start-4 lg:row-start-2"
       />
       <BlogIndexArticleCard
         date="2021-09-03"
@@ -34,9 +34,9 @@
         title="Article 4"
         small
         dark
-        class="lg:col-start-4 lg:row-start-3"
+        class="md:col-start-3 lg:col-start-4 lg:row-start-3"
       />
-    </div>
+    </ul>
   </NuxtLayout>
 </template>
 
