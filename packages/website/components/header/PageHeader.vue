@@ -13,7 +13,9 @@
     </div>
 
     <div class="flex gap-4 px-4">
-      <ThemeToggler />
+      <ClientOnly>
+        <ThemeToggler />
+      </ClientOnly>
     </div>
   </header>
 </template>
@@ -23,6 +25,7 @@ import PageLogo from '~/components/common/PageLogo.vue';
 import ThemeToggler from './ThemeToggler.vue';
 import { useTemplateRef } from 'vue';
 import { useScroll } from '@vueuse/core';
+import { ClientOnly } from '#components';
 
 const header = useTemplateRef<HTMLElement>('header');
 
