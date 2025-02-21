@@ -7,4 +7,15 @@ import PageHeader from './components/header/PageHeader.vue';
   <PageHeader />
 
   <NuxtPage />
+
+  <p class="p-4 text-center text-xs">
+    Tu Hoang, 2025
+    <br />
+    <a href="https://github.com/TheTimewaster/thoang-me-blog" class="underline">Source</a>
+    &nbsp;•&nbsp; Powered by <a href="https://nuxt.com" class="underline">Nuxt</a>,
+    <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> and
+    <a href="https://pages.cloudflare.com/" class="underline">Cloudflare Pages</a>
+    <br />
+    Content provided by <a href="https://sanity.io" class="underline">sanity.io</a>
+  </p>
 </template>

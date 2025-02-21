@@ -48,7 +48,7 @@ const {
   dark = false,
 
   date,
-  image,
+  image = null,
   slug,
   title,
 } = defineProps<{
@@ -57,7 +57,7 @@ const {
 
   title: string;
   image?: string;
-  date: string;
+  date?: string;
   slug: string;
 }>();
 
@@ -69,8 +69,6 @@ const {
 
   elementX: x,
   elementY: y,
-  elementPositionX: positionX,
-  elementPositionY: positionY,
   elementWidth: width,
   elementHeight: height,
 } = useMouseInElement(linkContainer, {

@@ -42,10 +42,11 @@
 
 <script setup lang="ts">
 import BlogIndexArticleCard from '~/components/blog/index/IndexArticleCard.vue';
-import type { SanityDocument } from '@sanity/client';
-import { computed, groq, useSanity, useSanityQuery } from '#imports';
+import { groq, useSanity, useSanityQuery } from '#imports';
+import { computed } from 'vue';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { Article } from '~/santiy.types';
 
 const ARTICLES_QUERY = groq`
   *[_type == "article"] | order(publishedAt desc) {
@@ -57,7 +58,7 @@ const ARTICLES_QUERY = groq`
   }
 `;
 
-const { data: articles } = await useSanityQuery<SanityDocument[]>(ARTICLES_QUERY);
+const { data: articles } = await useSanityQuery<Array<Article>>(ARTICLES_QUERY);
 
 const mainArticle = computed(() => (articles.value != null ? articles.value[0] : undefined));
 

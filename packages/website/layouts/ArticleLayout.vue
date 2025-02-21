@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto mt-32 md:max-w-[1280px]">
+  <div class="h-[200dvh]">
     <slot></slot>
   </div>
 </template>
