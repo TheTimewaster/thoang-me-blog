@@ -77,17 +77,6 @@ export type Article = {
   title?: string;
   slug?: Slug;
   publishedAt?: string;
-  thumbnail?: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  };
   mainImage?: {
     asset?: {
       _ref: string;
