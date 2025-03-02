@@ -9,7 +9,7 @@
     <div class="flex flex-1 items-center gap-4 p-4 lg:flex-auto">
       <PageLogo />
 
-      <h1 class="flex gap-2 font-serif text-3xl font-bold">Blog</h1>
+      <NuxtLink to="/" class="font-serif text-3xl font-bold"> Blog </NuxtLink>
     </div>
 
     <div class="flex gap-4 px-4">

@@ -24,10 +24,6 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@400;800&display=swap',
         },
       ],
-      bodyAttrs: {
-        class:
-          'bg-peach text-lavender-extra-dark dark:bg-lavender-extra-dark dark:text-peach md:px-8 px-4 xl:px-16 transition-colors',
-      },
     },
   },
 

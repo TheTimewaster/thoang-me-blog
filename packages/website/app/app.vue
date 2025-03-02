@@ -4,6 +4,10 @@ import PageHeader from './components/header/PageHeader.vue';
 </script>
 
 <template>
+  <Head>
+    <Title>thoang.me Blog</Title>
+    <Body class="bg-peach dark:bg-lavender-dark text-lavender-dark dark:text-peach transition-colors" />
+  </Head>
   <PageHeader />
 
   <NuxtPage />

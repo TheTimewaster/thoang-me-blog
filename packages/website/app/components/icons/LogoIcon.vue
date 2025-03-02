@@ -10,7 +10,7 @@
       <g transform="matrix(1.151 0 0 1.1504 -264.8 -23.769)" clip-path="url(#a)">
         <g
           transform="matrix(1.001 0 0 .99412 -326.33 330.65)"
-          class="[stroke:black] group-hover:[stroke:white] dark:[stroke:white] dark:group-hover:[stroke:black]"
+          class="[stroke:currentColor]"
           fill="none"
           stroke-linecap="round"
           stroke-width="32.589"

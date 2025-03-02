@@ -27,12 +27,6 @@ export const articleType = defineType({
       description: 'This is the date the article was published',
     }),
     defineField({
-      name: 'thumbnail',
-      title: 'Thumbnail',
-      type: 'image',
-      description: 'This is the thumbnail for the article',
-    }),
-    defineField({
       name: 'mainImage',
       title: 'Main image',
       type: 'image',
