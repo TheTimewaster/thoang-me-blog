@@ -2,6 +2,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
   app: {
     head: {
       charset: 'utf-8',
@@ -39,7 +42,7 @@ export default defineNuxtConfig({
     autoImport: false,
   },
 
-  css: ['./assets/css/main.css'],
+  css: ['./app/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
   modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
   sanity: {

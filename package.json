@@ -13,5 +13,6 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "5.5.3",
     "typescript-eslint": "^8.21.0"
-  }
+  },
+  "packageManager": "pnpm@10.2.1+sha1.48adf39a4ab751eda7b73b99447d1f0b6d227e02"
 }
