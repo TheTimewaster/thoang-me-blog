@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[200dvh]">
+  <div>
     <slot></slot>
   </div>
 </template>

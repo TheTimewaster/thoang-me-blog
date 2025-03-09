@@ -5,8 +5,16 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+
+  nitro: {
+    compressPublicAssets: true,
+  },
+
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       link: [
@@ -28,7 +36,8 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2024-11-01',
-  devtools: { enabled: true },
+
+  // devtools: { enabled: true },
 
   vue: {
     propsDestructure: true,
@@ -40,9 +49,19 @@ export default defineNuxtConfig({
 
   css: ['./app/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
-  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
+
+  modules: [
+    '@vueuse/nuxt', 
+    '@nuxt/image', 
+    '@nuxtjs/sanity'
+  ],
+
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,
+  },
+
+  devtools: {
+    enabled: true,
   },
 });

@@ -9,7 +9,7 @@ const VARIANT_BG = {
 
 const VARIANT_TEXT = {
   peach: 'text-lavender-dark',
-  lavender: 'text-peach',
+  lavender: 'text-peach-light',
 };
 
 export default (variant: MaybeRef<ComponentColorVariant>, includeText?: boolean) => {

@@ -1,6 +1,6 @@
 <template>
   <button
-    class="theme-toggle hover:bg-lavender-extra-dark hover:text-peach dark:hover:bg-peach dark:hover:text-lavender-extra-dark cursor-pointer rounded-full p-3 transition-colors"
+    class="theme-toggle hover:bg-lavender-extra-dark hover:text-peach-light dark:hover:bg-peach-light dark:hover:text-lavender-extra-dark cursor-pointer rounded-full p-3 transition-colors duration-300"
     @click="emit('click')"
   >
     <slot>

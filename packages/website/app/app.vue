@@ -6,7 +6,7 @@ import PageHeader from './components/header/PageHeader.vue';
 <template>
   <Head>
     <Title>thoang.me Blog</Title>
-    <Body class="bg-peach dark:bg-lavender-dark text-lavender-dark dark:text-peach transition-colors" />
+    <Body class="bg-peach-light dark:bg-lavender-dark text-lavender-dark dark:text-peach-light transition-colors" />
   </Head>
   <PageHeader />
 

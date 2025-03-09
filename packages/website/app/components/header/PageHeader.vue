@@ -1,9 +1,12 @@
 <template>
   <header
     ref="header"
-    class="header fixed left-0 right-0 top-0 z-10 flex items-center gap-4 transition-all"
+    class="header fixed left-0 right-0 top-0 z-10 flex items-center gap-4 transition-all backdrop-blur-(--header-blur)"
     :class="{
-      'bg-peach/20 dark:bg-lavender-extra-dark/20 backdrop-blur-[40px]': scrollY > 0,
+      'bg-peach-light/20 dark:bg-lavender-extra-dark/20': scrollY > 0,
+    }"
+    :style="{
+      '--header-blur': blurValue + 'px',
     }"
   >
     <div class="flex flex-1 items-center gap-4 p-4 lg:flex-auto">
@@ -21,15 +24,18 @@
 </template>
 
 <script setup lang="ts">
+import { ClientOnly } from '#components';
+import { useScroll } from '@vueuse/core';
+import { computed, useTemplateRef } from 'vue';
 import PageLogo from '~/components/common/PageLogo.vue';
 import ThemeToggler from './ThemeToggler.vue';
-import { useTemplateRef } from 'vue';
-import { useScroll } from '@vueuse/core';
-import { ClientOnly } from '#components';
 
 const header = useTemplateRef<HTMLElement>('header');
 
 const { y: scrollY } = useScroll(window);
+const blurValue = computed(() => {
+  return `${Math.min(scrollY.value / 5, 64)}`;
+});
 </script>
 
 <style scoped></style>

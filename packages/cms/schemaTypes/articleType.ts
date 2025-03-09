@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export const articleType = defineType({
   name: 'article',
@@ -100,6 +100,16 @@ export const articleType = defineType({
       title: 'Main image',
       type: 'image',
       description: 'This is the main image for the article',
+      fields: [
+        {
+          name: 'caption',
+          title: 'Caption',
+          type: 'string',
+        }
+      ],
+      options: {
+        accept: 'image/webp',
+      }
     }),
     defineField({
       name: 'content',
@@ -111,9 +121,40 @@ export const articleType = defineType({
         },
         {
           type: 'image',
+          fields: [
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            }
+          ]
         },
         {
           type: 'code',
+        },
+        {
+          type: 'object',
+          name: 'gallery',
+          title: 'Gallery',
+          fields: [
+            defineField({
+              name: 'images',
+              title: 'Images',
+              type: 'array',
+              of: [
+                {
+                  type: 'image',
+                  fields: [
+                    {
+                      name: 'caption',
+                      title: 'Caption',
+                      type: 'string',
+                    }
+                  ]
+                }
+              ],
+            })
+          ]
         },
       ],
     }),

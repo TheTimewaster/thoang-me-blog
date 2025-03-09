@@ -1,5 +1,9 @@
 <template>
   <NuxtLayout name="article-layout">
+    <Head>
+      <Title>{{ article.title }}</Title>
+      <Meta name="description" content="Read the latest article from thoang.me" />
+    </Head>
     <template v-if="article != null">
       <div
         class="md:px-(--article-header__padding,0)"
@@ -7,36 +11,39 @@
           '--article-header__padding': headerPadding,
         }"
       >
-        <div
-          class="relative flex aspect-square flex-col justify-between overflow-hidden sm:aspect-[3/2] lg:aspect-[2/1]"
-        >
-          <NuxtImg
+        <div class="relative flex aspect-square flex-col justify-end overflow-hidden sm:aspect-[3/2] lg:aspect-[2/1]">
+          <img
             class="rounded-(--article-image__border-radius) absolute left-0 top-0 -z-10 h-full w-full object-cover transition-all"
-            :src="urlFor(article.mainImage).format('webp').crop('center').url()"
+            :srcset="srcset"
+            :sizes="sizes"
+            :src="urlFor(article.mainImage.asset).auto('format').url()"
             :alt="article.title"
-            width="600"
-            height="400"
+            width="1200"
+            height="800"
             :style="{
               '--article-image__border-radius': headerImageBorderRadius,
             }"
           />
 
-          <div
-            class="from-peach/40 dark:from-lavender-extra-dark/40 h-32 bg-gradient-to-b from-70% to-transparent"
-          ></div>
+          <!-- <div
+            class="from-peach/40 dark:from-lavender-extra-dark/40 h-32 bg-gradient-to-b from-50% to-transparent"
+          ></div> -->
 
           <div
-            class="from-peach/40 dark:from-lavender-extra-dark/40 bg-gradient-to-t from-70% to-transparent p-4 transition-colors md:p-8 lg:p-16"
+            class="from-peach/40 dark:from-lavender-extra-dark/40 rounded-(--article-image__border-radius) bg-gradient-to-t from-50% to-transparent p-4 transition-colors md:p-8 lg:p-16"
+            :style="{
+              '--article-image__border-radius': headerImageBorderRadius,
+            }"
             ref="header"
           >
-            <h1 class="font-serif text-4xl md:w-1/2 md:text-6xl">{{ article.title }}</h1>
+            <h1 class="font-serif text-4xl md:w-2/3 md:text-5xl lg:w-1/2 lg:text-6xl">{{ article.title }}</h1>
           </div>
         </div>
       </div>
 
-      <div class="mx-auto mt-8 max-w-screen-lg lg:flex lg:gap-8">
+      <div class="mx-auto mt-8 max-w-screen-lg p-4 md:p-8 lg:flex lg:gap-8 lg:p-0">
         <!-- meta column -->
-        <div class="w-1/3">
+        <div class="lg:w-1/3">
           <transition
             enter-from-class="opacity-0"
             enter-to-class="opacity-100"
@@ -48,22 +55,31 @@
             </p>
           </transition>
 
-          <label for="article-published" class="dark:text-peach/60 text-lavender-extra-dark/60 text-xs font-bold">
+          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
             Published
           </label>
           <p class="text" id="article-published">{{ formattedDate }}</p>
-          <label for="article-published" class="dark:text-peach/60 text-lavender-extra-dark/60 text-xs font-bold">
+          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
             Type
           </label>
-
           <p class="text" id="article-type">Article</p>
-          <label for="article-published" class="dark:text-peach/60 text-lavender-extra-dark/60 text-xs font-bold">
+
+          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
             Tags
           </label>
-          <p>tag</p>
+          <ul>
+            <li v-for="tag in article.tags" :key="tag._key" class="text" id="article-tags">{{ tag.title }}</li>
+          </ul>
         </div>
-        <div class="sanity-content w-2/3">
-          <SanityContent v-if="article.content" :blocks="article.content" />
+        <div class="sanity-content lg:w-2/3">
+          <SanityContent
+            :blocks="article.content"
+            :serializers="{
+              types: {
+                gallery: ArticleGallery,
+              },
+            }"
+          />
         </div>
       </div>
     </template>
@@ -75,6 +91,7 @@
 
 <script setup lang="ts">
 import {
+  computed,
   groq,
   ref,
   shallowRef,
@@ -87,10 +104,10 @@ import {
 } from '#imports';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import { useRoute } from 'vue-router';
-import { NuxtImg } from '#components';
-import type { Article } from '~/santiy.types';
 import { useDateFormat, useIntersectionObserver } from '@vueuse/core';
+import { useRoute } from 'vue-router';
+import ArticleGallery from '~/components/blog/article/ArticleGallery.vue';
+import type { Article } from '~/santiy.types';
 
 const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug][0]`;
 const { params } = useRoute();
@@ -128,6 +145,33 @@ useIntersectionObserver(header, ([entry]) => {
 });
 
 const formattedDate = useState(() => useDateFormat(article.value.publishedAt, 'DD MMMM YYYY'));
+
+const srcset = computed(() => {
+  if (article.value?.mainImage?.asset) {
+    const { asset } = article.value.mainImage;
+    // we want to show 600px wide image on mobile, 800px on medium screens, and 1200px on large screens, and 2x for retina displays
+    return `
+      ${urlFor(asset).width(300).auto('format').url()} 300w,
+      ${urlFor(asset).width(600).auto('format').url()} 600w, 
+      ${urlFor(asset).width(800).auto('format').url()} 800w,
+      ${urlFor(asset).width(1200).auto('format').url()} 1200w,
+      ${urlFor(asset).width(1600).auto('format').url()} 2x
+    `;
+  }
+  return '';
+});
+const sizes = computed(() => {
+  if (article.value?.mainImage?.asset) {
+    // image is 100% width on mobile, 800px on medium screens, and 1200px on large screens
+    return `
+      (max-width: 640px) 100vw,
+      (max-width: 768px) 600px,
+      (max-width: 1024px) 800px,
+      1200px
+    `;
+  }
+  return undefined;
+});
 </script>
 
 <style scoped>

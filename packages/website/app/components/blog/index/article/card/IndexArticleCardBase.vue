@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     ref="linkContainer"
-    class="fill rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 shadow-lavender-extra-dark/20 dark:shadow-peach/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02] hover:shadow-xl"
+    class="fill rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 shadow-lavender-extra-dark/20 dark:shadow-peach-light/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02] hover:shadow-xl"
     :class="backgroundClass"
     :to="`/blog/${slug}`"
     :style="{
@@ -16,10 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef, useTemplateRef, watchEffect } from 'vue';
 import { NuxtLink } from '#components';
-import { useMouseInElement } from '@vueuse/core';
 import { useComponentVariant } from '#imports';
+import { useMouseInElement } from '@vueuse/core';
+import { computed, ref, toRef, useTemplateRef, watchEffect } from 'vue';
 import { type ComponentColorVariant } from '~/composables/useComponentVariant';
 
 const {
@@ -51,7 +51,7 @@ const backgroundClass = computed(() => {
   if (isSolidCard.value) return variantColor.value;
 
   let backgroundClass =
-    '[background-image:var(--article-image)] bg-center bg-no-repeat bg-cover bg-lavender-dark/20 bg-blend-multiply text-peach';
+    '[background-image:var(--article-image)] bg-center bg-no-repeat bg-cover bg-lavender-dark/20 bg-blend-multiply text-peach-light';
 
   return backgroundClass;
 });
@@ -64,7 +64,7 @@ const {
   elementY: y,
   elementWidth: width,
   elementHeight: height,
-} = useMouseInElement(linkContainer, {
+} = useMouseInElement(linkContainer as unknown as HTMLAnchorElement, {
   handleOutside: false,
   window,
 });
