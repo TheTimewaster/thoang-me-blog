@@ -12,7 +12,7 @@
         variant="peach"
       />
 
-      <BlogIndexArticleCard
+      <!-- <BlogIndexArticleCard
         date="2021-09-02"
         image="https://unsplash.com/photos/pEj4EfkMIUw/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM3NzU4NTQ2fA&force=true&w=640"
         slug="article-2"
@@ -37,7 +37,7 @@
         small
         variant="lavender"
         class="md:col-start-3 lg:col-start-4 lg:row-start-3"
-      />
+      /> -->
     </ul>
   </NuxtLayout>
 </template>

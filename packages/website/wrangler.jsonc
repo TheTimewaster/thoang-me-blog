@@ -1,0 +1,4 @@
+{
+  "name": "thoang-me-blog",
+  "main": "./.output/server/index.mjs"
+}
