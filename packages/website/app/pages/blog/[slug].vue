@@ -1,45 +1,14 @@
 <template>
   <NuxtLayout name="article-layout">
     <Head>
-      <Title>{{ article.title }}</Title>
+      <Title>{{ article == null ? params.slug : article.title }}</Title>
       <Meta name="description" content="Read the latest article from thoang.me" />
     </Head>
     <template v-if="article != null">
-      <div
-        class="md:px-(--article-header__padding,0)"
-        :style="{
-          '--article-header__padding': headerPadding,
-        }"
-      >
-        <div class="relative flex aspect-square flex-col justify-end overflow-hidden sm:aspect-[3/2] lg:aspect-[2/1]">
-          <img
-            class="rounded-(--article-image__border-radius) absolute left-0 top-0 -z-10 h-full w-full object-cover transition-all"
-            :srcset="srcset"
-            :sizes="sizes"
-            :src="urlFor(article.mainImage.asset).auto('format').url()"
-            :alt="article.title"
-            width="1200"
-            height="800"
-            :style="{
-              '--article-image__border-radius': headerImageBorderRadius,
-            }"
-          />
-
-          <!-- <div
-            class="from-peach/40 dark:from-lavender-extra-dark/40 h-32 bg-gradient-to-b from-50% to-transparent"
-          ></div> -->
-
-          <div
-            class="from-peach/40 dark:from-lavender-extra-dark/40 rounded-(--article-image__border-radius) bg-gradient-to-t from-50% to-transparent p-4 transition-colors md:p-8 lg:p-16"
-            :style="{
-              '--article-image__border-radius': headerImageBorderRadius,
-            }"
-            ref="header"
-          >
-            <h1 class="font-serif text-4xl md:w-2/3 md:text-5xl lg:w-1/2 lg:text-6xl">{{ article.title }}</h1>
-          </div>
-        </div>
-      </div>
+      <ArticleHeader ref="header" 
+        :main-image="article.mainImage" 
+        :title="article.title"
+      />
 
       <div class="mx-auto mt-8 max-w-screen-lg p-4 md:p-8 lg:flex lg:gap-8 lg:p-0">
         <!-- meta column -->
@@ -90,53 +59,19 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  groq,
-  ref,
-  shallowRef,
-  useSanity,
-  useSanityQuery,
-  useScroll,
-  useState,
-  useTemplateRef,
-  watchEffect,
-} from '#imports';
-import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { groq, shallowRef, useSanityQuery, useState, useTemplateRef } from '#imports';
 import { useDateFormat, useIntersectionObserver } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import ArticleGallery from '~/components/blog/article/ArticleGallery.vue';
+import ArticleHeader from '~/components/blog/article/ArticleHeader.vue';
 import type { Article } from '~/santiy.types';
 
 const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug][0]`;
 const { params } = useRoute();
 
 const { data: article, error } = await useSanityQuery<Article>(ARTICLE_QUERY, params);
-const { projectId, dataset } = useSanity().client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
 
-const { y: scrollY } = useScroll(window);
-
-// inital is 0
-const headerImageBorderRadius = ref<string>(undefined);
-// inital is 32px
-const headerPadding = ref<string>(undefined);
-watchEffect(() => {
-  if (scrollY.value === 0) {
-    headerImageBorderRadius.value = undefined;
-    headerPadding.value = undefined;
-    return;
-  }
-
-  // while scrolling, we want to gradually increase the border radius of the header image, until it reaches 32
-  headerImageBorderRadius.value = `${Math.min(64, Math.max(0, Math.round(scrollY.value / 10)))}px`;
-  // while scrolling, we want to gradually decrease the padding of the header, until it reaches 0
-  headerPadding.value = `${Math.min(32, Math.max(0, Math.round(scrollY.value / 10)))}px`;
-});
-
-const header = useTemplateRef<HTMLElement>('header');
+const header = useTemplateRef<InstanceType<typeof ArticleHeader>>('header');
 const showTitleInFactSheet = shallowRef(false);
 useIntersectionObserver(header, ([entry]) => {
   console.log(entry.isIntersecting);
@@ -144,33 +79,10 @@ useIntersectionObserver(header, ([entry]) => {
   showTitleInFactSheet.value = !entry.isIntersecting;
 });
 
-const formattedDate = useState(() => useDateFormat(article.value.publishedAt, 'DD MMMM YYYY'));
+const formattedDate = useState(() => {
+  if (article.value == null) return '';
 
-const srcset = computed(() => {
-  if (article.value?.mainImage?.asset) {
-    const { asset } = article.value.mainImage;
-    // we want to show 600px wide image on mobile, 800px on medium screens, and 1200px on large screens, and 2x for retina displays
-    return `
-      ${urlFor(asset).width(300).auto('format').url()} 300w,
-      ${urlFor(asset).width(600).auto('format').url()} 600w, 
-      ${urlFor(asset).width(800).auto('format').url()} 800w,
-      ${urlFor(asset).width(1200).auto('format').url()} 1200w,
-      ${urlFor(asset).width(1600).auto('format').url()} 2x
-    `;
-  }
-  return '';
-});
-const sizes = computed(() => {
-  if (article.value?.mainImage?.asset) {
-    // image is 100% width on mobile, 800px on medium screens, and 1200px on large screens
-    return `
-      (max-width: 640px) 100vw,
-      (max-width: 768px) 600px,
-      (max-width: 1024px) 800px,
-      1200px
-    `;
-  }
-  return undefined;
+  return useDateFormat(article.value.publishedAt, 'MMMM DD, YYYY');
 });
 </script>
 
