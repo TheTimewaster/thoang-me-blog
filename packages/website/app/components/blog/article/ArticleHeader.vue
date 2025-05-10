@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:px-(--article-header__padding,0)"
+    class="md:px-(--article-header__padding,0) 3xl:w-3/5 3xl:pt-48 mx-auto 2xl:w-4/5 2xl:pt-24"
     :style="{
       '--article-header__padding': headerPadding,
     }"
@@ -43,10 +43,7 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { useScroll } from '@vueuse/core';
 import { computed, ref, watchEffect } from 'vue';
 
-const { 
-  mainImage = null,
-  title,
- } = defineProps<{
+const { mainImage = null, title } = defineProps<{
   mainImage?: { asset?: SanityImageSource };
   title: string;
 }>();
@@ -71,7 +68,7 @@ watchEffect(() => {
   // while scrolling, we want to gradually increase the border radius of the header image, until it reaches 32
   headerImageBorderRadius.value = `${Math.min(64, Math.max(0, Math.round(scrollY.value / 10)))}px`;
   // while scrolling, we want to gradually decrease the padding of the header, until it reaches 0
-  headerPadding.value = `${Math.min(32, Math.max(0, Math.round(scrollY.value / 10)))}px`;
+  headerPadding.value = `${Math.min(32, Math.max(0, Math.round(scrollY.value / 5)))}px`;
 });
 
 const srcset = computed(() => {

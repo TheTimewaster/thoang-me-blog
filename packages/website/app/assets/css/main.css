@@ -15,4 +15,6 @@
   --color-mint: oklch(87.28% 0.1893 159.97);
   --color-orange: oklch(68.82% 0.1886 33.2);
   --color-lemon: oklch(92.47% 0.1574 102.75);
+
+  --breakpoint-3xl: 120rem;
 }

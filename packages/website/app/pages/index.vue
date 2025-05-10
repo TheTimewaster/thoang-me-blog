@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout name="index-layout">
     <div v-if="pending">Loading...</div>
+
     <span v-else-if="mainArticle == null"> Whoops! Something went wrong. Please try again later. </span>
 
     <ul v-else class="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:grid-rows-3 xl:gap-16">
