@@ -50,15 +50,16 @@ export default defineNuxtConfig({
   css: ['./app/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
 
-  modules: [
-    '@vueuse/nuxt', 
-    '@nuxt/image', 
-    '@nuxtjs/sanity'
-  ],
+  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
 
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,
+    visualEditing: {
+      token: process.env.NUXT_SANITY_VISUAL_EDITING_TOKEN,
+      studioUrl: process.env.NUXT_SANITY_VISUAL_EDITING_STUDIO_URL,
+      stega: true,
+    },
   },
 
   devtools: {

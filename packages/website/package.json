@@ -12,13 +12,13 @@
   "dependencies": {
     "@nuxt/image": "1.9.0",
     "@nuxtjs/sanity": "1.13.3",
-    "@sanity/client": "^6.28.3",
+    "@sanity/client": "^7.2.1",
     "@sanity/image-url": "^1.1.0",
-    "@tailwindcss/vite": "^4.0.12",
+    "@tailwindcss/vite": "^4.1.6",
     "@vueuse/core": "12.7.0",
     "@vueuse/nuxt": "12.5.0",
-    "nuxt": "^3.16.0",
-    "tailwindcss": "^4.0.12",
+    "nuxt": "^3.17.2",
+    "tailwindcss": "^4.1.6",
     "vue": "latest",
     "vue-router": "latest"
   },
