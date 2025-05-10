@@ -17,7 +17,9 @@
     "@tailwindcss/vite": "^4.1.6",
     "@vueuse/core": "12.7.0",
     "@vueuse/nuxt": "12.5.0",
+    "lodash": "^4.17.21",
     "nuxt": "^3.17.2",
+    "shallowequal": "^1.1.0",
     "tailwindcss": "^4.1.6",
     "vue": "latest",
     "vue-router": "latest"

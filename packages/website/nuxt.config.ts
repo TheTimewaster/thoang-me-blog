@@ -48,7 +48,12 @@ export default defineNuxtConfig({
   },
 
   css: ['./app/assets/css/main.css'],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['shallowequal', 'lodash/startCase.js'],
+    },
+  },
 
   modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
 
@@ -57,9 +62,10 @@ export default defineNuxtConfig({
     dataset: process.env.NUXT_SANITY_DATASET,
     visualEditing: {
       token: process.env.NUXT_SANITY_VISUAL_EDITING_TOKEN,
-      studioUrl: process.env.NUXT_SANITY_VISUAL_EDITING_STUDIO_URL,
+      studioUrl: process.env.NUXT_SANITY_VISUAL_EDITING_STUDIO_URL || 'http://localhost:3333',
       stega: true,
     },
+    apiVersion: '2024-01-01',
   },
 
   devtools: {
