@@ -7,10 +7,10 @@
     <ul v-else class="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:grid-rows-3 xl:gap-16">
       <BlogIndexArticleCard
         class="col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-3"
-        :date="mainArticle.publishedAt.toLocaleString()"
-        :image="urlFor(mainArticle.mainImage)?.format('webp').width(500).height(500).url()"
-        :slug="mainArticle.slug.current"
-        :title="mainArticle.title"
+        :date="mainArticle.first_publication_date"
+        :slug="mainArticle.uid"
+        :image="mainArticle.data.main_image"
+        :title="mainArticle.data.title"
         variant="peach"
       />
 
@@ -45,30 +45,31 @@
 </template>
 
 <script setup lang="ts">
+import { computed, useAsyncData, usePrismic } from '#imports';
+import type { Client } from '@prismicio/client';
 import BlogIndexArticleCard from '~/components/blog/index/article/card/IndexArticleCard.vue';
-import { groq, useSanity, useSanityQuery } from '#imports';
-import { computed } from 'vue';
-import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import type { Article } from '~/santiy.types';
+import type { AllDocumentTypes } from '~~/prismicio-types';
 
-const ARTICLES_QUERY = groq`
-  *[_type == "article"] | order(publishedAt desc) {
-    _id,
-    title,
-    publishedAt,
-    slug,
-    mainImage,
-  }
-`;
+const {
+  client,
+}: {
+  client: Client<AllDocumentTypes>;
+} = usePrismic();
+const { data, pending } = await useAsyncData(`[article-index]`, () =>
+  client.getAllByType('article', {
+    orderings: {
+      field: 'my.article.first_publication_date',
+      direction: 'desc',
+    },
+    pageSize: 4,
+  }),
+);
 
-const { data: articles, pending } = await useSanityQuery<Array<Article>>(ARTICLES_QUERY);
+const mainArticle = computed(() => {
+  if (data.value == null) return null;
 
-const mainArticle = computed(() => (articles.value != null ? articles.value[0] : undefined));
-
-const { projectId, dataset } = useSanity().client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
+  return data.value[0];
+});
 </script>
 
 <style scoped></style>

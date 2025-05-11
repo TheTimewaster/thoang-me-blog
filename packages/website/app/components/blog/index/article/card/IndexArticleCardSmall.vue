@@ -25,6 +25,7 @@ import type { ComponentColorVariant } from '~/composables/useComponentVariant';
 import BlogIndexArticleCardBase from './IndexArticleCardBase.vue';
 import BlogIndexArticleCardHeader from './IndexArticleCardHeader.vue';
 import BlogIndexArticleCardDate from './IndexArticleCardDate.vue';
+import type { ArticleDocumentData } from '~~/prismicio-types';
 
 const {
   variant = 'peach',
@@ -37,7 +38,7 @@ const {
   variant?: ComponentColorVariant;
 
   title: string;
-  image?: string;
+  image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
 }>();

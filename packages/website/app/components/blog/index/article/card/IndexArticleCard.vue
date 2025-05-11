@@ -8,6 +8,7 @@
 import type { ComponentColorVariant } from '#imports';
 import IndexArticleCardMain from './IndexArticleCardMain.vue';
 import IndexArticleCardSmall from './IndexArticleCardSmall.vue';
+import type { ArticleDocumentData } from '~~/prismicio-types';
 
 const {
   small = false,
@@ -22,7 +23,7 @@ const {
   variant?: ComponentColorVariant;
 
   title: string;
-  image?: string;
+  image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
 }>();

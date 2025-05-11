@@ -5,7 +5,7 @@
     :class="backgroundClass"
     :to="`/blog/${slug}`"
     :style="{
-      '--article-image': image != null ? `url(${image})` : undefined,
+      '--article-image': imageUrl != null ? `url(${imageUrl})` : undefined,
       '--tw-rotate-x': `rotateX(${roll}deg)`,
       '--tw-rotate-y': `rotateY(${tilt}deg)`,
     }"
@@ -21,17 +21,20 @@ import { useComponentVariant } from '#imports';
 import { useMouseInElement } from '@vueuse/core';
 import { computed, ref, toRef, useTemplateRef, watchEffect } from 'vue';
 import { type ComponentColorVariant } from '~/composables/useComponentVariant';
+import type { ArticleDocumentData } from '~~/prismicio-types';
 
 const {
   variant = 'peach',
 
+  isMain = false,
   image = null,
   slug,
 
   tiltRollModifier = 10,
 } = defineProps<{
   variant?: ComponentColorVariant;
-  image?: string;
+  isMain?: boolean;
+  image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
 
@@ -54,6 +57,17 @@ const backgroundClass = computed(() => {
     '[background-image:var(--article-image)] bg-center bg-no-repeat bg-cover bg-lavender-dark/20 bg-blend-multiply text-peach-light';
 
   return backgroundClass;
+});
+
+const imageUrl = computed(() => {
+  if (isSolidCard.value) return undefined;
+
+  if (isMain) {
+    console.log('isMain', image['big-thumbnail'].url);
+    return image['big-thumbnail'].url;
+  }
+
+  return image['small-thumbnail'].url;
 });
 
 const linkContainer = useTemplateRef<InstanceType<typeof NuxtLink>>('linkContainer');

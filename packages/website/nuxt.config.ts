@@ -1,3 +1,4 @@
+import { apiEndpoint, repositoryName } from './slicemachine.config.json';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -48,6 +49,7 @@ export default defineNuxtConfig({
   },
 
   css: ['./app/assets/css/main.css'],
+
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
@@ -55,20 +57,13 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/sanity'],
-
-  sanity: {
-    projectId: process.env.NUXT_SANITY_PROJECT_ID,
-    dataset: process.env.NUXT_SANITY_DATASET,
-    visualEditing: {
-      token: process.env.NUXT_SANITY_VISUAL_EDITING_TOKEN,
-      studioUrl: process.env.NUXT_SANITY_VISUAL_EDITING_STUDIO_URL || 'http://localhost:3333',
-      stega: true,
-    },
-    apiVersion: '2024-01-01',
-  },
+  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/prismic'],
 
   devtools: {
     enabled: true,
+  },
+
+  prismic: {
+    endpoint: apiEndpoint || repositoryName,
   },
 });

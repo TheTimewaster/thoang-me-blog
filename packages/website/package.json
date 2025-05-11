@@ -7,13 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "slicemachine": "start-slicemachine"
   },
   "dependencies": {
     "@nuxt/image": "1.9.0",
-    "@nuxtjs/sanity": "1.13.3",
-    "@sanity/client": "^7.2.1",
-    "@sanity/image-url": "^1.1.0",
+    "@prismicio/client": "^7.17.2",
     "@tailwindcss/vite": "^4.1.6",
     "@vueuse/core": "12.7.0",
     "@vueuse/nuxt": "12.5.0",
@@ -28,6 +27,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
-    "globals": "^15.15.0"
+    "@nuxtjs/prismic": "^4.0.0",
+    "@slicemachine/adapter-nuxt": "^0.3.76",
+    "globals": "^15.15.0",
+    "slice-machine-ui": "^2.15.3"
   }
 }

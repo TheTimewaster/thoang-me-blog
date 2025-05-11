@@ -5,7 +5,7 @@
       <Meta name="description" content="Read the latest article from thoang.me" />
     </Head>
     <template v-if="article != null">
-      <ArticleHeader ref="header" :main-image="article.mainImage" :title="article.title" />
+      <ArticleHeader ref="header" :main-image="article.main_image" :title="article.title" />
 
       <div class="mx-auto my-24 max-w-screen-lg p-4 md:p-8 lg:flex lg:gap-8 lg:p-0">
         <!-- meta column -->
@@ -23,18 +23,11 @@
             Tags
           </label>
           <ul>
-            <li v-for="tag in article.tags" :key="tag._key" class="text" id="article-tags">{{ tag.title }}</li>
+            <li v-for="tag in article.tags" :key="tag.tag" class="text" id="article-tags">{{ tag.tag }}</li>
           </ul>
         </div>
-        <div class="sanity-content lg:w-2/3">
-          <SanityContent
-            :blocks="article.content"
-            :serializers="{
-              types: {
-                gallery: ArticleGallery,
-              },
-            }"
-          />
+        <div class="prismic-content lg:w-2/3">
+          <PrismicRichText v-if="article.slices[0]" :field="article.slices[0].primary.text" />
         </div>
       </div>
     </template>
@@ -45,41 +38,52 @@
 </template>
 
 <script setup lang="ts">
-import { groq, useSanityQuery, useState } from '#imports';
-import { useDateFormat } from '@vueuse/core';
+import { computed, useAsyncData, useDateFormat, usePrismic, useState } from '#imports';
+import type { Client } from '@prismicio/client';
 import { useRoute } from 'vue-router';
-import ArticleGallery from '~/components/blog/article/ArticleGallery.vue';
 import ArticleHeader from '~/components/blog/article/ArticleHeader.vue';
-import type { Article } from '~/santiy.types';
+import type { AllDocumentTypes, ArticleDocument } from '~~/prismicio-types';
 
-const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug][0]`;
 const { params } = useRoute();
 
-const { data: article, error } = await useSanityQuery<Article>(ARTICLE_QUERY, params);
+const {
+  client,
+}: {
+  client: Client<AllDocumentTypes>;
+} = usePrismic();
+const { data, error } = await useAsyncData<ArticleDocument>(`[article-slug-${params.slug}]`, () =>
+  client.getByUID('article', params.slug as string, {}),
+);
+
+const article = computed(() => {
+  if (data.value == null) return null;
+
+  return data.value.data;
+});
 
 const formattedDate = useState(() => {
   if (article.value == null) return '';
 
-  return useDateFormat(article.value.publishedAt, 'MMMM DD, YYYY');
+  return useDateFormat(data.value.first_publication_date, 'MMMM DD, YYYY');
 });
 </script>
 
 <style scoped>
 @reference '~/assets/css/main.css';
 
-.sanity-content :deep(p) {
+.prismic-content :deep(p) {
   @apply mb-4;
 }
 
-.sanity-content :deep(h2) {
+.prismic-content :deep(h2) {
   @apply mb-4 mt-8 font-serif text-2xl font-bold;
 }
 
-.sanity-content :deep(h3) {
+.prismic-content :deep(h3) {
   @apply mb-4 mt-8 font-serif text-xl font-bold;
 }
 
-.sanity-content :deep(ul) {
+.prismic-content :deep(ul) {
   @apply list-inside list-disc;
 }
 </style>
