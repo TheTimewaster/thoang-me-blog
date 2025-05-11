@@ -20,6 +20,6 @@ import PageHeader from './components/header/PageHeader.vue';
     <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> and
     <a href="https://pages.cloudflare.com/" class="underline">Cloudflare Pages</a>
     <br />
-    Content provided by <a href="https://sanity.io" class="underline">sanity.io</a>
+    Content provided by <a href="https://prismic.io" class="underline">prismic.io</a>
   </p>
 </template>
