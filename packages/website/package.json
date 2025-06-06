@@ -12,14 +12,14 @@
   },
   "dependencies": {
     "@nuxt/image": "1.9.0",
-    "@prismicio/client": "^7.17.2",
-    "@tailwindcss/vite": "^4.1.6",
+    "@prismicio/client": "^7.17.3",
+    "@tailwindcss/vite": "^4.1.8",
     "@vueuse/core": "12.7.0",
     "@vueuse/nuxt": "12.5.0",
     "lodash": "^4.17.21",
-    "nuxt": "^3.17.2",
+    "nuxt": "^3.17.5",
     "shallowequal": "^1.1.0",
-    "tailwindcss": "^4.1.6",
+    "tailwindcss": "^4.1.8",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -27,9 +27,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtjs/prismic": "^4.0.0",
-    "@slicemachine/adapter-nuxt": "^0.3.76",
+    "@nuxtjs/prismic": "^4.1.0",
+    "@slicemachine/adapter-nuxt": "^0.3.78",
     "globals": "^15.15.0",
-    "slice-machine-ui": "^2.15.3"
+    "slice-machine-ui": "^2.16.1"
   }
 }

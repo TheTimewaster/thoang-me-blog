@@ -7,9 +7,10 @@
       :slug="slug"
       :isMain="true"
       :image="image"
+      :tags="tags"
     >
       <template #title>
-        <BlogIndexArticleCardHeader class="text-2xl sm:text-6xl">
+        <BlogIndexArticleCardHeader class="mb-8 self-end text-2xl sm:text-6xl xl:w-3/4">
           {{ title }}
         </BlogIndexArticleCardHeader>
       </template>
@@ -35,6 +36,7 @@ const {
   image = null,
   slug,
   title,
+  tags = [],
 } = defineProps<{
   small?: boolean;
   variant?: ComponentColorVariant;
@@ -43,6 +45,7 @@ const {
   image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
+  tags?: ArticleDocumentData['tags'];
 }>();
 </script>
 

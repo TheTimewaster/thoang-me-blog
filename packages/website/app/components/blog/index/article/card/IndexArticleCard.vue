@@ -1,7 +1,23 @@
 <template>
-  <IndexArticleCardSmall v-if="small" :date="date" :image="image" :slug="slug" :title="title" :variant="variant" />
+  <IndexArticleCardSmall
+    v-if="small"
+    :date="date"
+    :image="image"
+    :slug="slug"
+    :title="title"
+    :variant="variant"
+    :tags="tags"
+  />
 
-  <IndexArticleCardMain v-else :date="date" :image="image" :slug="slug" :title="title" :variant="variant" />
+  <IndexArticleCardMain
+    v-else
+    :date="date"
+    :image="image"
+    :slug="slug"
+    :title="title"
+    :variant="variant"
+    :tags="tags"
+  />
 </template>
 
 <script setup lang="ts">
@@ -18,6 +34,7 @@ const {
   image = null,
   slug,
   title,
+  tags = [],
 } = defineProps<{
   small?: boolean;
   variant?: ComponentColorVariant;
@@ -26,6 +43,7 @@ const {
   image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
+  tags?: ArticleDocumentData['tags'];
 }>();
 </script>
 

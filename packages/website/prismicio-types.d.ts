@@ -28,17 +28,6 @@ type ArticleDocumentDataSlicesSlice = ContentSlice;
  */
 interface ArticleDocumentData {
   /**
-   * Main Image field in *Article*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: article.main_image
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  main_image: prismic.ImageField<'big-thumbnail' | 'small-thumbnail'>;
-
-  /**
    * Title field in *Article*
    *
    * - **Field Type**: Text
@@ -50,6 +39,17 @@ interface ArticleDocumentData {
   title: prismic.KeyTextField;
 
   /**
+   * Main Image field in *Article*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article.main_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  main_image: prismic.ImageField<'big-thumbnail' | 'small-thumbnail'>;
+
+  /**
    * Tags field in *Article*
    *
    * - **Field Type**: Group
@@ -59,6 +59,17 @@ interface ArticleDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   tags: prismic.GroupField<Simplify<ArticleDocumentDataTagsItem>>;
+
+  /**
+   * Location field in *Article*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article.location
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  location: prismic.GeoPointField;
 
   /**
    * Slice Zone field in *Article*
@@ -118,7 +129,24 @@ export type ArticleDocument<Lang extends string = string> = prismic.PrismicDocum
   Lang
 >;
 
-export type AllDocumentTypes = ArticleDocument;
+interface GalleryDocumentData {}
+
+/**
+ * gallery document from Prismic
+ *
+ * - **API ID**: `gallery`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type GalleryDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+  Simplify<GalleryDocumentData>,
+  'gallery',
+  Lang
+>;
+
+export type AllDocumentTypes = ArticleDocument | GalleryDocument;
 
 /**
  * Primary content in *Content → Default → Primary*
@@ -177,6 +205,8 @@ declare module '@prismicio/client' {
       ArticleDocumentData,
       ArticleDocumentDataTagsItem,
       ArticleDocumentDataSlicesSlice,
+      GalleryDocument,
+      GalleryDocumentData,
       AllDocumentTypes,
       ContentSlice,
       ContentSliceDefaultPrimary,

@@ -1,19 +1,31 @@
 import { computed, unref, type MaybeRef } from 'vue';
+import type { ArticleDocumentData } from '~~/prismicio-types';
 
 export type ComponentColorVariant = 'peach' | 'lavender';
 
 const VARIANT_BG = {
   peach: 'bg-peach',
   lavender: 'bg-lavender',
+  vue: 'bg-gradient-to-r from-emerald-400 to-cyan-400',
 };
 
 const VARIANT_TEXT = {
   peach: 'text-lavender-dark',
   lavender: 'text-peach-light',
+  vue: 'text-lavender-dark',
 };
 
-export default (variant: MaybeRef<ComponentColorVariant>, includeText?: boolean) => {
+export default (
+  variant: MaybeRef<ComponentColorVariant>,
+  tags: MaybeRef<ArticleDocumentData['tags']>,
+  includeText = false,
+) => {
   const color = computed(() => {
+    const tagsValue = unref(tags);
+    if (tagsValue.map((tag) => tag.tag).includes('vue')) {
+      return includeText ? `${VARIANT_BG.vue} ${VARIANT_TEXT.vue}` : VARIANT_BG.vue;
+    }
+
     const variantValue = unref(variant);
     const bg = VARIANT_BG[variantValue];
     const text = VARIANT_TEXT[variantValue];

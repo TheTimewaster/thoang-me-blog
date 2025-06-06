@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { NuxtPage } from '#components';
+import { Body, Head, NuxtPage, Title } from '#components';
+import PageFooter from './components/footer/PageFooter.vue';
 import PageHeader from './components/header/PageHeader.vue';
 </script>
 
@@ -12,14 +13,5 @@ import PageHeader from './components/header/PageHeader.vue';
 
   <NuxtPage />
 
-  <p class="p-4 text-center text-xs">
-    Tu Hoang, 2025
-    <br />
-    <a href="https://github.com/TheTimewaster/thoang-me-blog" class="underline">Source</a>
-    &nbsp;•&nbsp; Powered by <a href="https://nuxt.com" class="underline">Nuxt</a>,
-    <a href="https://tailwindcss.com/" class="underline">Tailwind CSS</a> and
-    <a href="https://pages.cloudflare.com/" class="underline">Cloudflare Pages</a>
-    <br />
-    Content provided by <a href="https://prismic.io" class="underline">prismic.io</a>
-  </p>
+  <PageFooter />
 </template>

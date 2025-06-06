@@ -1,19 +1,21 @@
 <template>
   <div
-    class="md:px-(--article-header__padding,0) 3xl:w-3/5 3xl:pt-48 mx-auto 2xl:w-4/5 2xl:pt-24"
+    class="md:px-(--article-header__padding,0) 3xl:w-4/5 pt-22 mx-auto 2xl:w-4/5 2xl:pt-36"
     :style="{
       '--article-header__padding': headerPadding,
     }"
   >
-    <div class="relative flex aspect-square flex-col justify-end overflow-hidden sm:aspect-[3/2] lg:aspect-[2/1]">
+    <div
+      class="rounded-(--article-image__border-radius) relative flex aspect-square flex-col justify-end overflow-hidden sm:aspect-[3/2] lg:aspect-[2/1]"
+      :class="solidBackgroundClass"
+      :style="{
+        '--article-image__border-radius': headerImageBorderRadius,
+      }"
+    >
       <PrismicImage
-        v-if="mainImage"
+        v-if="mainImage.url"
         :field="mainImage"
-        class="rounded-(--article-image__border-radius) absolute left-0 top-0 -z-10 h-full w-full object-cover transition-all"
-        :style="{
-          '--article-image__border-radius': headerImageBorderRadius,
-        }"
-        :alt="title"
+        class="absolute left-0 top-0 -z-10 h-full w-full object-cover transition-all"
       />
 
       <!-- <div
@@ -21,27 +23,41 @@
           ></div> -->
 
       <div
-        class="from-peach/40 dark:from-lavender-extra-dark/40 rounded-(--article-image__border-radius) bg-gradient-to-t from-50% to-transparent p-4 transition-colors md:p-8 lg:p-16"
-        :style="{
-          '--article-image__border-radius': headerImageBorderRadius,
-        }"
+        class="bg-gradient-to-t from-50% to-transparent px-4 py-8 transition-colors md:p-16 md:px-8 xl:px-16"
+        :class="hasMainImage ? 'from-peach/40 dark:from-lavender-extra-dark/40' : ''"
         ref="header"
       >
-        <h1 class="font-serif text-4xl md:w-2/3 md:text-5xl lg:w-1/2 lg:text-6xl">{{ title }}</h1>
+        <h1 class="font-serif text-4xl md:w-2/3 md:text-5xl lg:text-6xl xl:w-1/2">{{ title }}</h1>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useComponentVariant } from '#imports';
 import { useScroll } from '@vueuse/core';
-import { ref, watchEffect } from 'vue';
+import { computed, ref, toRef, watchEffect } from 'vue';
+import useArticleHasMainImage from '~/composables/useArticleHasMainImage';
 import type { ArticleDocumentData } from '~~/prismicio-types';
 
-const { mainImage = null, title } = defineProps<{
+const {
+  mainImage = null,
+  title,
+  tags = [],
+} = defineProps<{
   mainImage?: ArticleDocumentData['main_image'];
   title: string;
+  tags?: ArticleDocumentData['tags'];
 }>();
+
+const tagsRef = toRef(() => tags);
+const colorClass = useComponentVariant('peach', tagsRef, true);
+const { hasMainImage, hasNoMainImage } = useArticleHasMainImage(mainImage);
+const solidBackgroundClass = computed(() => {
+  if (hasNoMainImage.value) return colorClass.value;
+
+  return '';
+});
 
 const { y: scrollY } = useScroll(window);
 

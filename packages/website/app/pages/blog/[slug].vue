@@ -1,35 +1,14 @@
 <template>
   <NuxtLayout name="article-layout">
     <Head>
-      <Title>{{ article == null ? params.slug : article.title }}</Title>
+      <Title v-if="article == null">{{ params.slug }}</Title>
+      <Title v-else>{{ article.title }}</Title>
       <Meta name="description" content="Read the latest article from thoang.me" />
     </Head>
     <template v-if="article != null">
-      <ArticleHeader ref="header" :main-image="article.main_image" :title="article.title" />
+      <ArticleHeader ref="header" :main-image="article.main_image" :title="article.title" :tags="article.tags" />
 
-      <div class="mx-auto my-24 max-w-screen-lg p-4 md:p-8 lg:flex lg:gap-8 lg:p-0">
-        <!-- meta column -->
-        <div class="lg:w-1/3">
-          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
-            Published
-          </label>
-          <p class="text" id="article-published">{{ formattedDate }}</p>
-          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
-            Type
-          </label>
-          <p class="text" id="article-type">Article</p>
-
-          <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
-            Tags
-          </label>
-          <ul>
-            <li v-for="tag in article.tags" :key="tag.tag" class="text" id="article-tags">{{ tag.tag }}</li>
-          </ul>
-        </div>
-        <div class="prismic-content lg:w-2/3">
-          <PrismicRichText v-if="article.slices[0]" :field="article.slices[0].primary.text" />
-        </div>
-      </div>
+      <ArticleContent class="mx-auto my-16 max-w-screen-lg md:my-24" :article-doc="data" />
     </template>
     <template v-else-if="error">
       <p>Whoops! Something went wrong. Please try again later.</p>
@@ -38,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useAsyncData, useDateFormat, usePrismic, useState } from '#imports';
+import { computed, useAsyncData, usePrismic } from '#imports';
 import type { Client } from '@prismicio/client';
 import { useRoute } from 'vue-router';
+import ArticleContent from '~/components/blog/article/ArticleContent.vue';
 import ArticleHeader from '~/components/blog/article/ArticleHeader.vue';
 import type { AllDocumentTypes, ArticleDocument } from '~~/prismicio-types';
 
@@ -59,12 +39,6 @@ const article = computed(() => {
   if (data.value == null) return null;
 
   return data.value.data;
-});
-
-const formattedDate = useState(() => {
-  if (article.value == null) return '';
-
-  return useDateFormat(data.value.first_publication_date, 'MMMM DD, YYYY');
 });
 </script>
 

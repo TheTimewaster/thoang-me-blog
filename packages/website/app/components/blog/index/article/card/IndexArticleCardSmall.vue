@@ -6,6 +6,7 @@
       :tiltRollModifier="10"
       :slug="slug"
       :image="image"
+      :tags="tags"
     >
       <template #title>
         <BlogIndexArticleCardHeader class="text-lg lg:text-xl">
@@ -34,6 +35,7 @@ const {
   image = null,
   slug,
   title,
+  tags = [],
 } = defineProps<{
   variant?: ComponentColorVariant;
 
@@ -41,6 +43,7 @@ const {
   image?: ArticleDocumentData['main_image'];
   date?: string;
   slug: string;
+  tags?: ArticleDocumentData['tags'];
 }>();
 </script>
 

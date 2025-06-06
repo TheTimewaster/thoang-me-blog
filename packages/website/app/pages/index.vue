@@ -11,35 +11,21 @@
         :slug="mainArticle.uid"
         :image="mainArticle.data.main_image"
         :title="mainArticle.data.title"
+        :tags="mainArticle.data.tags"
         variant="peach"
       />
 
-      <!-- <BlogIndexArticleCard
-        date="2021-09-02"
-        image="https://unsplash.com/photos/pEj4EfkMIUw/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM3NzU4NTQ2fA&force=true&w=640"
-        slug="article-2"
-        title="Article 2"
-        variant="lavender"
-        small
-        class="md:col-start-1 lg:col-start-4 lg:row-start-1"
-      />
-
       <BlogIndexArticleCard
-        date="2021-09-03"
-        slug="article-3"
-        title="Article 3"
-        variant="peach"
+        v-for="article in data.slice(1, 5)"
+        :key="article.id"
+        class="md:col-start-2 lg:col-start-4"
+        :date="article.first_publication_date"
+        :slug="article.uid"
+        :image="article.data.main_image"
+        :title="article.data.title"
+        :tags="mainArticle.data.tags"
         small
-        class="md:col-start-2 lg:col-start-4 lg:row-start-2"
       />
-      <BlogIndexArticleCard
-        date="2021-09-03"
-        slug="article-4"
-        title="Article 4"
-        small
-        variant="lavender"
-        class="md:col-start-3 lg:col-start-4 lg:row-start-3"
-      /> -->
     </ul>
   </NuxtLayout>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     ref="linkContainer"
-    class="fill rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 shadow-lavender-extra-dark/20 dark:shadow-peach-light/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02] hover:shadow-xl"
+    class="fill rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 dark:shadow-peach-light/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02]"
     :class="backgroundClass"
     :to="`/blog/${slug}`"
     :style="{
@@ -26,6 +26,8 @@ import type { ArticleDocumentData } from '~~/prismicio-types';
 const {
   variant = 'peach',
 
+  tags = [],
+
   isMain = false,
   image = null,
   slug,
@@ -33,9 +35,11 @@ const {
   tiltRollModifier = 10,
 } = defineProps<{
   variant?: ComponentColorVariant;
+  tags?: ArticleDocumentData['tags'];
+
   isMain?: boolean;
   image?: ArticleDocumentData['main_image'];
-  date?: string;
+
   slug: string;
 
   tiltRollModifier?: number;
@@ -46,10 +50,19 @@ defineSlots<{
   date: () => void;
 }>();
 
-const isSolidCard = computed(() => image == null);
+const isSolidCard = computed(() => {
+  if (image == null) return true;
+
+  if (image['big-thumbnail'] == null || Object.keys(image['big-thumbnail']).length === 0) {
+    return true;
+  }
+
+  return image['small-thumbnail'] == null || Object.keys(image['small-thumbnail']).length === 0;
+});
 
 const variantRef = toRef(() => variant);
-const variantColor = useComponentVariant(variantRef, true);
+const tagsRef = toRef(() => tags);
+const variantColor = useComponentVariant(variantRef, tagsRef, true);
 const backgroundClass = computed(() => {
   if (isSolidCard.value) return variantColor.value;
 
@@ -63,7 +76,6 @@ const imageUrl = computed(() => {
   if (isSolidCard.value) return undefined;
 
   if (isMain) {
-    console.log('isMain', image['big-thumbnail'].url);
     return image['big-thumbnail'].url;
   }
 
