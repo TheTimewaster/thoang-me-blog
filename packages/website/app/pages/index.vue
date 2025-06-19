@@ -18,7 +18,7 @@
       <BlogIndexArticleCard
         v-for="article in data.slice(1, 5)"
         :key="article.id"
-        class="md:col-start-2 lg:col-start-4"
+        class="lg:col-start-4"
         :date="article.first_publication_date"
         :slug="article.uid"
         :image="article.data.main_image"

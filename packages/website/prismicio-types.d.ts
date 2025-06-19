@@ -21,7 +21,7 @@ export interface ArticleDocumentDataTagsItem {
   >;
 }
 
-type ArticleDocumentDataSlicesSlice = ContentSlice;
+type ArticleDocumentDataSlicesSlice = GallerySlice | ContentSlice;
 
 /**
  * Content for Article documents
@@ -129,24 +129,7 @@ export type ArticleDocument<Lang extends string = string> = prismic.PrismicDocum
   Lang
 >;
 
-interface GalleryDocumentData {}
-
-/**
- * gallery document from Prismic
- *
- * - **API ID**: `gallery`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type GalleryDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
-  Simplify<GalleryDocumentData>,
-  'gallery',
-  Lang
->;
-
-export type AllDocumentTypes = ArticleDocument | GalleryDocument;
+export type AllDocumentTypes = ArticleDocument;
 
 /**
  * Primary content in *Content → Default → Primary*
@@ -186,6 +169,69 @@ type ContentSliceVariation = ContentSliceDefault;
  */
 export type ContentSlice = prismic.SharedSlice<'content', ContentSliceVariation>;
 
+/**
+ * Item in *Gallery → Default → Primary → Images*
+ */
+export interface GallerySliceDefaultPrimaryImagesItem {
+  /**
+   * Image field in *Gallery → Default → Primary → Images*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery.default.primary.images[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'thumbnail'>;
+
+  /**
+   * Caption field in *Gallery → Default → Primary → Images*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery.default.primary.images[].caption
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  caption: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *Gallery → Default → Primary*
+ */
+export interface GallerySliceDefaultPrimary {
+  /**
+   * Images field in *Gallery → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery.default.primary.images[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  images: prismic.GroupField<Simplify<GallerySliceDefaultPrimaryImagesItem>>;
+}
+
+/**
+ * Default variation for Gallery Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GallerySliceDefault = prismic.SharedSliceVariation<'default', Simplify<GallerySliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *Gallery*
+ */
+type GallerySliceVariation = GallerySliceDefault;
+
+/**
+ * Gallery Shared Slice
+ *
+ * - **API ID**: `gallery`
+ * - **Description**: Gallery
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GallerySlice = prismic.SharedSlice<'gallery', GallerySliceVariation>;
+
 declare module '@prismicio/client' {
   interface CreateClient {
     (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -205,13 +251,16 @@ declare module '@prismicio/client' {
       ArticleDocumentData,
       ArticleDocumentDataTagsItem,
       ArticleDocumentDataSlicesSlice,
-      GalleryDocument,
-      GalleryDocumentData,
       AllDocumentTypes,
       ContentSlice,
       ContentSliceDefaultPrimary,
       ContentSliceVariation,
       ContentSliceDefault,
+      GallerySlice,
+      GallerySliceDefaultPrimaryImagesItem,
+      GallerySliceDefaultPrimary,
+      GallerySliceVariation,
+      GallerySliceDefault,
     };
   }
 }

@@ -6,7 +6,13 @@
       <Meta name="description" content="Read the latest article from thoang.me" />
     </Head>
     <template v-if="article != null">
-      <ArticleHeader ref="header" :main-image="article.main_image" :title="article.title" :tags="article.tags" />
+      <ArticleHeader
+        ref="header"
+        class="3xl:w-3/4 mx-auto 2xl:w-5/6"
+        :main-image="article.main_image"
+        :title="article.title"
+        :tags="article.tags"
+      />
 
       <ArticleContent class="mx-auto my-16 max-w-screen-lg md:my-24" :article-doc="data" />
     </template>

@@ -52,9 +52,9 @@
 import { ClientOnly } from '#components';
 import { useScroll } from '@vueuse/core';
 import { computed, useTemplateRef } from 'vue';
+import { useRoute } from 'vue-router';
 import PageLogo from '~/components/common/PageLogo.vue';
 import ThemeToggler from './ThemeToggler.vue';
-import { useRoute } from 'vue-router';
 
 const header = useTemplateRef<HTMLElement>('header');
 

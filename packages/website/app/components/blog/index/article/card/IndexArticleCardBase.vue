@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components';
 import { useComponentVariant } from '#imports';
+import { isFilled } from '@prismicio/client';
 import { useMouseInElement } from '@vueuse/core';
 import { computed, ref, toRef, useTemplateRef, watchEffect } from 'vue';
 import { type ComponentColorVariant } from '~/composables/useComponentVariant';
@@ -50,21 +51,11 @@ defineSlots<{
   date: () => void;
 }>();
 
-const isSolidCard = computed(() => {
-  if (image == null) return true;
-
-  if (image['big-thumbnail'] == null || Object.keys(image['big-thumbnail']).length === 0) {
-    return true;
-  }
-
-  return image['small-thumbnail'] == null || Object.keys(image['small-thumbnail']).length === 0;
-});
-
 const variantRef = toRef(() => variant);
 const tagsRef = toRef(() => tags);
 const variantColor = useComponentVariant(variantRef, tagsRef, true);
 const backgroundClass = computed(() => {
-  if (isSolidCard.value) return variantColor.value;
+  if (!isFilled.image(image)) return variantColor.value;
 
   let backgroundClass =
     '[background-image:var(--article-image)] bg-center bg-no-repeat bg-cover bg-lavender-dark/20 bg-blend-multiply text-peach-light';
@@ -73,7 +64,7 @@ const backgroundClass = computed(() => {
 });
 
 const imageUrl = computed(() => {
-  if (isSolidCard.value) return undefined;
+  if (!isFilled.image(image)) return undefined;
 
   if (isMain) {
     return image['big-thumbnail'].url;

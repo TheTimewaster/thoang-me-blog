@@ -7,4 +7,5 @@ export default {
   useTabs: false,
   plugins: ['prettier-plugin-tailwindcss'],
   tailwindStylesheet: '~/assets/css/main.css',
+  tailwindFunctions: ['tw'],
 };
