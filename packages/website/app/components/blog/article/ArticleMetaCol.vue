@@ -4,14 +4,12 @@
       Published
     </label>
     <p class="text" id="article-published">{{ formattedDate }}</p>
-    <label
-      v-if="articleData.location"
-      for="article-location"
-      class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold"
-    >
-      Location
-    </label>
-    <p class="text" id="article-location">{{ articleData.location }}</p>
+    <template v-if="articleData.location && articleData.location.latitude != null">
+      <label for="article-location" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
+        Location
+      </label>
+      <p class="text" id="article-location">{{ articleData.location }}</p>
+    </template>
     <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
       Type
     </label>
@@ -42,7 +40,7 @@ const articleData = computed(() => {
 const formattedDate = useState(() => {
   if (articleDoc == null) return '';
 
-  return useDateFormat(articleDoc.first_publication_date, 'MMMM DD, YYYY');
+  return useDateFormat(articleDoc.first_publication_date, 'DD MMMM, YYYY');
 });
 </script>
 

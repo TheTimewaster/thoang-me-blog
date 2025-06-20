@@ -11,6 +11,7 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@nuxt/icon": "1.14.0",
     "@nuxt/image": "1.9.0",
     "@prismicio/client": "^7.17.3",
     "@tailwindcss/vite": "^4.1.8",

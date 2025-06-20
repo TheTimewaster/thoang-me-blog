@@ -1,8 +1,6 @@
 <template>
-  <div class="px-4 pb-32 md:px-8">
-    <div class="mx-auto mt-32 md:max-w-[1280px]">
-      <slot></slot>
-    </div>
+  <div class="py-22 mx-auto flex w-full flex-1 flex-col px-4 md:max-w-[1280px] md:px-8 lg:justify-center">
+    <slot></slot>
   </div>
 </template>
 

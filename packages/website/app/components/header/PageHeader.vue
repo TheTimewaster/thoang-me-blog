@@ -23,15 +23,7 @@
           mode="out-in"
         >
           <div v-if="isNotMainPage" class="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1.5em"
-              viewBox="8 0 16 24"
-              class="block transition-opacity duration-200"
-            >
-              <path fill="currentColor" d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6l6 6z" />
-            </svg>
+            <Icon name="ic:baseline-chevron-left" class="block text-5xl transition-opacity duration-200" />
             <span class="leading-12">Blog</span>
           </div>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 md:px-8 lg:flex lg:gap-8">
     <!-- meta column -->
-    <ArticleMetaCol class="lg:w-1/3 2xl:w-1/5" :articleDoc="articleDoc" />
+    <ArticleMetaCol class="mb-16 lg:mb-0 lg:w-1/3 2xl:w-1/5" :articleDoc="articleDoc" />
 
     <div class="prismic-content lg:w-4/5">
       <template v-for="slice in articleData.slices" :key="slice.id">

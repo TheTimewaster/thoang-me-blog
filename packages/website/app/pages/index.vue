@@ -4,7 +4,10 @@
 
     <span v-else-if="mainArticle == null"> Whoops! Something went wrong. Please try again later. </span>
 
-    <ul v-else class="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:grid-rows-3 xl:gap-16">
+    <ul
+      v-else
+      class="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:grid-cols-5 lg:grid-rows-3 2xl:grid-cols-4 2xl:gap-16"
+    >
       <BlogIndexArticleCard
         class="col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-3"
         :date="mainArticle.first_publication_date"
@@ -18,7 +21,7 @@
       <BlogIndexArticleCard
         v-for="article in data.slice(1, 5)"
         :key="article.id"
-        class="lg:col-start-4"
+        class="lg:col-span-2 lg:col-start-4 lg:row-span-1 2xl:col-span-1"
         :date="article.first_publication_date"
         :slug="article.uid"
         :image="article.data.main_image"

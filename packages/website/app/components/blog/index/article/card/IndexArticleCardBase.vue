@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     ref="linkContainer"
-    class="fill rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 dark:shadow-peach-light/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02]"
+    class="rounded-4xl md:rotate-x-(--rotate-x) md:rotate-y-(--rotate-y) translate-z-0 dark:shadow-peach-light/20 flex flex-col justify-end bg-cover transition-all hover:scale-[1.02]"
     :class="backgroundClass"
     :to="`/blog/${slug}`"
     :style="{

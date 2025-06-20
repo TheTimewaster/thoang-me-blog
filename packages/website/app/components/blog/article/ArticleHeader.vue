@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pt-22 overflow-hidden lg:[clip-path:inset(0px_var(--article-image__scale-x)_0px_var(--article-image__scale-x)_round_var(--article-image__border-radius))] 2xl:pt-36"
+    class="rounded-(--article-image__border-radius) overflow-hidden lg:rounded-none lg:[clip-path:inset(0px_var(--article-image__scale-x)_0px_var(--article-image__scale-x)_round_var(--article-image__border-radius))]"
     :style="{
       '--article-image__scale-x': headerImageScaleX,
       '--article-image__border-radius': headerImageBorderRadius,
@@ -11,13 +11,7 @@
       :class="solidBackgroundClass"
     >
       <div class="absolute left-0 top-0 -z-10 h-full w-full overflow-hidden transition-all duration-75">
-        <PrismicImage
-          v-if="mainImage.url"
-          :field="mainImage"
-          :imgix-params="{}"
-          class="h-full w-full object-cover"
-          :style="{}"
-        />
+        <PrismicImage v-if="mainImage.url" :field="mainImage" class="h-full w-full object-cover" :style="{}" />
       </div>
 
       <!-- <div
@@ -25,11 +19,11 @@
         ></div> -->
 
       <div
-        class="bg-gradient-to-t from-70% to-transparent px-4 py-8 transition-colors md:px-8 lg:py-12"
-        :class="isFilled.image(mainImage) ? 'from-peach-light/40 dark:from-lavender-extra-dark/40' : ''"
+        class="bg-gradient-to-t from-80% to-transparent py-8 transition-colors lg:py-12"
+        :class="isFilled.image(mainImage) ? 'from-peach-light/30 dark:from-lavender-extra-dark/30' : ''"
       >
         <div class="mx-auto max-w-screen-lg" ref="header">
-          <h1 class="font-serif text-4xl md:w-3/4 md:text-5xl lg:text-6xl xl:w-2/3">{{ title }}</h1>
+          <h1 class="px-4 font-serif text-4xl md:px-8 md:text-5xl lg:w-3/4 lg:text-6xl xl:w-2/3">{{ title }}</h1>
         </div>
       </div>
     </div>
@@ -37,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import { PrismicImage } from '#components';
 import { useComponentVariant } from '#imports';
 import { isFilled } from '@prismicio/client';
 import { useScroll } from '@vueuse/core';
@@ -76,7 +71,7 @@ watchEffect(() => {
 
   // while scrolling, we want to gradually increase the border radius of the header image, until it reaches 32
   headerImageBorderRadius.value = `${Math.min(64, Math.max(0, Math.round(scrollY.value / 10)))}px`;
-  // while scrolling, increase the scale of the header image from 0% to 10% while scrolling down
+  // while scrolling, increase the scale of the header image from 0 to 64px, until it reaches 64px
   headerImageScaleX.value = `${Math.min(64, Math.max(0, scrollY.value / 10))}px`;
 });
 </script>

@@ -10,7 +10,7 @@
       :tags="tags"
     >
       <template #title>
-        <BlogIndexArticleCardHeader class="mb-8 self-end text-2xl sm:text-6xl xl:w-3/4">
+        <BlogIndexArticleCardHeader class="mb-4 self-end text-2xl sm:mb-8 sm:text-4xl md:text-6xl xl:w-3/4">
           {{ title }}
         </BlogIndexArticleCardHeader>
       </template>
@@ -24,10 +24,10 @@
 
 <script setup lang="ts">
 import type { ComponentColorVariant } from '~/composables/useComponentVariant';
-import BlogIndexArticleCardBase from './IndexArticleCardBase.vue';
-import BlogIndexArticleCardHeader from './IndexArticleCardHeader.vue';
-import BlogIndexArticleCardDate from './IndexArticleCardDate.vue';
 import type { ArticleDocumentData } from '~~/prismicio-types';
+import BlogIndexArticleCardBase from './IndexArticleCardBase.vue';
+import BlogIndexArticleCardDate from './IndexArticleCardDate.vue';
+import BlogIndexArticleCardHeader from './IndexArticleCardHeader.vue';
 
 const {
   variant = 'peach',

@@ -1,5 +1,5 @@
-import { apiEndpoint, repositoryName } from './slicemachine.config.json';
 import tailwindcss from '@tailwindcss/vite';
+import { apiEndpoint, repositoryName } from './slicemachine.config.json';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -57,7 +57,11 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/prismic'],
+  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/prismic', '@nuxt/icon'],
+
+  icon: {
+    mode: 'svg',
+  },
 
   devtools: {
     enabled: true,

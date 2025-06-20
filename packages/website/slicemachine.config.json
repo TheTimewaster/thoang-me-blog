@@ -1,6 +1,11 @@
 {
   "repositoryName": "thoang-me-blog",
-  "adapter": "@slicemachine/adapter-nuxt",
+  "adapter": {
+    "resolve": "@slicemachine/adapter-nuxt",
+    "options": {
+      "typescript": true
+    }
+  },
   "libraries": ["./app/slices"],
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
 }
