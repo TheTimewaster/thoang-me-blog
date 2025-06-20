@@ -3,7 +3,15 @@
     <label for="article-published" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
       Published
     </label>
-    <p class="text" id="article-published">{{ formattedDate }}</p>
+    <p class="text" id="article-published">
+      <NuxtTime
+        :datetime="articleDoc.first_publication_date"
+        year="numeric"
+        month="2-digit"
+        day="2-digit"
+        locale="fr-CA"
+      />
+    </p>
     <template v-if="articleData.location && articleData.location.latitude != null">
       <label for="article-location" class="dark:text-peach-light/60 text-lavender-extra-dark/60 text-xs font-bold">
         Location
@@ -25,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDateFormat, useState } from '#imports';
+import { NuxtTime } from '#components';
 import { computed } from 'vue';
 import type { ArticleDocument } from '~~/prismicio-types';
 
@@ -35,12 +43,6 @@ const { articleDoc } = defineProps<{
 
 const articleData = computed(() => {
   return articleDoc.data;
-});
-
-const formattedDate = useState(() => {
-  if (articleDoc == null) return '';
-
-  return useDateFormat(articleDoc.first_publication_date, 'DD MMMM, YYYY');
 });
 </script>
 

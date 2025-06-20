@@ -26,7 +26,7 @@
         :slug="article.uid"
         :image="article.data.main_image"
         :title="article.data.title"
-        :tags="mainArticle.data.tags"
+        :tags="article.data.tags"
         small
       />
     </ul>

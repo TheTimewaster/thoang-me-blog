@@ -1,18 +1,15 @@
 <template>
   <p class="text-right">
-    {{ formattedDate }}
+    <NuxtTime :datetime="date" year="numeric" month="2-digit" day="2-digit" locale="fr-CA" />
   </p>
 </template>
 
 <script setup lang="ts">
-import { useState } from '#app';
-import { useDateFormat } from '#imports';
+import { NuxtTime } from '#components';
 
 const { date } = defineProps<{
   date: Date | string;
 }>();
-
-const formattedDate = useState(() => useDateFormat(date, 'DD MMMM, YYYY'));
 </script>
 
 <style scoped></style>
