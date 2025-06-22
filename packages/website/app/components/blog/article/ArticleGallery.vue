@@ -29,9 +29,9 @@
   <Teleport to="body">
     <Transition
       :enter-from-class="tw`opacity-0`"
-      :enter-active-class="tw`transition-opacity duration-100 ease-in`"
+      :enter-active-class="tw`transition-opacity duration-300 ease-in`"
       :enter-to-class="tw`opacity-100 `"
-      leave-active-class="transition-opacity duration-100 ease-out"
+      leave-active-class="transition-opacity duration-300 ease-out"
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
       @after-enter="onAppearEnd"
@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { PrismicImage } from '#components';
+import type { PrismicImage } from '#components';
 import { tw, useHead, useMagicKeys, useScroll } from '#imports';
 import { computed, ref, useTemplateRef, watchEffect } from 'vue';
 import BButton from '~/components/common/BButton.vue';

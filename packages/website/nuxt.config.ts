@@ -69,5 +69,8 @@ export default defineNuxtConfig({
 
   prismic: {
     endpoint: apiEndpoint || repositoryName,
+    clientConfig: {
+      routes: [{ type: 'article', path: '/blog/:uid' }],
+    },
   },
 });

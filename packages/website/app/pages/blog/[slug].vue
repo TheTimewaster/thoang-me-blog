@@ -1,37 +1,41 @@
 <template>
-  <template v-if="article != null">
-    <Head>
-      <Title>{{ article.meta_title }}</Title>
-      <Meta name="description" :content="article.meta_description" />
-      <!-- preload main image -->
-      <Link v-if="article.main_image?.url" rel="preload" :href="article.main_image.url" as="image" type="image/webp" />
-    </Head>
-    <ArticleHeader
-      ref="header"
-      class="3xl:w-3/4 mt-22 mx-auto 2xl:mt-36 2xl:w-5/6"
-      :main-image="article.main_image"
-      :title="article.title"
-      :tags="article.tags"
-    />
-    <ArticleContent class="mx-auto my-16 max-w-screen-lg md:my-24" :article-doc="data" />
-  </template>
-  <template v-else-if="error">
-    <p>Whoops! Something went wrong. Please try again later.</p>
-  </template>
+  <NuxtLayout name="article-layout">
+    <template v-if="article != null">
+      <Head>
+        <Title>{{ article.meta_title }}</Title>
+        <Meta name="description" :content="article.meta_description" />
+        <!-- preload main image -->
+        <Link
+          v-if="article.main_image?.url"
+          rel="preload"
+          :href="article.main_image.url"
+          as="image"
+          type="image/webp"
+        />
+      </Head>
+      <ArticleHeader
+        ref="header"
+        class="3xl:w-3/4 mt-22 mx-auto 2xl:mt-36 2xl:w-5/6"
+        :main-image="article.main_image"
+        :title="article.title"
+        :tags="article.tags"
+      />
+      <ArticleContent class="mx-auto my-16 max-w-screen-lg md:my-24" :article-doc="data" />
+    </template>
+    <template v-else-if="error">
+      <p>Whoops! Something went wrong. Please try again later.</p>
+    </template>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { Head, Link, Meta, Title } from '#components';
-import { computed, definePageMeta, useAsyncData, usePrismic } from '#imports';
+import { computed, useAsyncData, usePrismic } from '#imports';
 import type { Client } from '@prismicio/client';
 import { useRoute } from 'vue-router';
 import ArticleContent from '~/components/blog/article/ArticleContent.vue';
 import ArticleHeader from '~/components/blog/article/ArticleHeader.vue';
 import type { AllDocumentTypes, ArticleDocument } from '~~/prismicio-types';
-
-definePageMeta({
-  layout: 'article-layout',
-});
 
 const { params } = useRoute();
 

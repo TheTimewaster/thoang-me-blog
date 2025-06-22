@@ -3,20 +3,19 @@
     <!-- meta column -->
     <ArticleMetaCol class="mb-16 lg:mb-0 lg:w-1/3 2xl:w-1/5" :articleDoc="articleDoc" />
 
-    <div class="prismic-content lg:w-4/5">
-      <template v-for="slice in articleData.slices" :key="slice.id">
-        <PrismicRichText v-if="slice.slice_type === 'content'" :field="slice.primary.text" />
-
-        <ArticleGallery v-else-if="slice.slice_type === 'gallery'" :images="slice.primary.images" />
-      </template>
-    </div>
+    <SliceZone
+      class="prismic-content lg:w-4/5"
+      :slices="articleData.slices"
+      wrapper="article"
+      :components="components"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from '#imports';
+import { components } from '~/slices';
 import type { ArticleDocument } from '~~/prismicio-types';
-import ArticleGallery from './ArticleGallery.vue';
 import ArticleMetaCol from './ArticleMetaCol.vue';
 
 const { articleDoc } = defineProps<{

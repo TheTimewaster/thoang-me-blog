@@ -1,14 +1,14 @@
 <template>
-  <button
+  <component
+    :is="component"
     class="cursor-pointer rounded-full p-3 transition-all duration-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40"
     :class="variantClass"
     :disabled="disabled"
-    @click="emit('click')"
   >
     <slot>
       {{ label }}
     </slot>
-  </button>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -16,10 +16,13 @@ import { tw } from '#imports';
 import { computed } from 'vue';
 
 const {
+  component = 'button',
   variant = 'default',
   label = 'Click me',
   disabled = false,
 } = defineProps<{
+  component?: string;
+
   label?: string;
   /**
    * Variant of the button.
@@ -35,10 +38,6 @@ const {
    * Disables the button.
    */
   disabled?: boolean;
-}>();
-
-const emit = defineEmits<{
-  click: [];
 }>();
 
 const variantClass = computed(() => {

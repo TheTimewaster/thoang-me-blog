@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { PrismicRichText } from '#components';
+import { getSliceComponentProps } from '#imports';
 import type { Content } from '@prismicio/client';
 
 // The array passed to `getSliceComponentProps` is purely optional.
@@ -8,6 +10,6 @@ defineProps(getSliceComponentProps<Content.ContentSlice>(['slice', 'index', 'sli
 
 <template>
   <section :data-slice-type="slice.slice_type" :data-slice-variation="slice.variation">
-    Placeholder component for content (variation: {{ slice.variation }}) Slices
+    <PrismicRichText :field="slice.primary.text"> </PrismicRichText>
   </section>
 </template>
