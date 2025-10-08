@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { getSliceComponentProps } from '#imports';
 import type { Content } from '@prismicio/client';
+import ArticleGallery from '~/components/blog/article/ArticleGallery.vue';
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -7,11 +9,9 @@ defineProps(getSliceComponentProps<Content.GallerySlice>(['slice', 'index', 'sli
 </script>
 
 <template>
-
   <section :data-slice-type="slice.slice_type" :data-slice-variation="slice.variation">
-     Placeholder component for gallery (variation: {{ slice.variation }}) slices. <br /> <strong
-      >You can edit this slice directly in your code editor.</strong
-    > <!--
+    <ArticleGallery :images="slice.primary.images" />
+    <!--
 	💡 Use Prismic MCP with your code editor
 
 	Get AI-powered help to build your slice components — based on your actual model.
@@ -37,5 +37,4 @@ defineProps(getSliceComponentProps<Content.GallerySlice>(['slice', 'index', 'sli
 	📚 Give your feedback: https://community.prismic.io/t/help-us-shape-the-future-of-slice-creation/19505
 -->
   </section>
-
 </template>
