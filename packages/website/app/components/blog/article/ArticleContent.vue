@@ -3,6 +3,7 @@
     <!-- meta column -->
     <ArticleMetaCol class="mb-16 lg:mb-0 lg:w-1/3 2xl:w-1/5" :articleDoc="articleDoc" />
 
+    <!-- content column -->
     <SliceZone class="lg:w-4/5" :slices="articleData.slices" wrapper="article" :components="components" />
   </div>
 </template>

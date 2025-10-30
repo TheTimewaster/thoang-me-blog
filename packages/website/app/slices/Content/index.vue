@@ -3,9 +3,7 @@ import { PrismicRichText } from '#components';
 import { getSliceComponentProps } from '#imports';
 import type { Content } from '@prismicio/client';
 
-// The array passed to `getSliceComponentProps` is purely optional.
-// Consider it as a visual hint for you when templating your slice.
-defineProps(getSliceComponentProps<Content.ContentSlice>(['slice', 'index', 'slices', 'context']));
+const { slice } = defineProps(getSliceComponentProps<Content.ContentSlice>());
 </script>
 
 <template>
@@ -34,5 +32,9 @@ defineProps(getSliceComponentProps<Content.ContentSlice>(['slice', 'index', 'sli
 
 .prismic-content :deep(.block-img img) {
   @apply rounded-4xl;
+}
+
+.prismic-content :deep(a) {
+  @apply dark:text-peach dark:hover:text-peach-light text-lavender hover:text-lavender-dark underline transition-colors;
 }
 </style>
