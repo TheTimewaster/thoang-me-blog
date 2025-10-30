@@ -18,3 +18,8 @@
 
   --breakpoint-3xl: 120rem;
 }
+
+html.dark .shiki,
+html.dark .shiki span {
+  @apply text-(--shiki-dark)! bg-(--shiki-dark-bg)!;
+}

@@ -3,10 +3,6 @@ import { apiEndpoint, repositoryName } from './slicemachine.config.json';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4,
-  },
-
   nitro: {
     compressPublicAssets: true,
   },
@@ -57,7 +53,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/prismic', '@nuxt/icon'],
+  modules: ['@vueuse/nuxt', '@nuxt/image', '@nuxtjs/prismic', '@nuxt/icon', 'nuxt-shiki'],
 
   icon: {
     mode: 'svg',
@@ -65,6 +61,12 @@ export default defineNuxtConfig({
 
   devtools: {
     enabled: true,
+  },
+
+  shiki: {
+    bundledLangs: ['js', 'ts', 'vue', 'html', 'css', 'json', 'jsx', 'md', 'mdx', 'tsx'],
+    bundledThemes: ['github-light', 'github-dark'],
+    defaultTheme: 'github-light',
   },
 
   prismic: {

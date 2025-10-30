@@ -1,0 +1,50 @@
+{
+  "id": "code",
+  "type": "SharedSlice",
+  "name": "Code",
+  "description": "Code",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "language": {
+          "type": "Select",
+          "config": {
+            "label": "Language",
+            "placeholder": "js, ts, vue, etc.",
+            "options": [
+              "ts",
+              "vue",
+              "css",
+              "js",
+              "tsx",
+              "jsx"
+            ]
+          }
+        },
+        "code": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Code",
+            "placeholder": "Place code here...",
+            "allowTargetBlank": true,
+            "multi": "preformatted"
+          }
+        },
+        "filename": {
+          "type": "Text",
+          "config": {
+            "label": "Filename",
+            "placeholder": "enter a filename"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

@@ -46,5 +46,3 @@ const {
   tags?: ArticleDocumentData['tags'];
 }>();
 </script>
-
-<style scoped></style>

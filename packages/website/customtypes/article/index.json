@@ -79,6 +79,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "code": {
+              "type": "SharedSlice"
+            },
             "gallery": {
               "type": "SharedSlice"
             },

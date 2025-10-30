@@ -4,6 +4,56 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type PickContentRelationshipFieldData<
+  TRelationship extends
+    | prismic.CustomTypeModelFetchCustomTypeLevel1
+    | prismic.CustomTypeModelFetchCustomTypeLevel2
+    | prismic.CustomTypeModelFetchGroupLevel1
+    | prismic.CustomTypeModelFetchGroupLevel2,
+  TData extends Record<
+    string,
+    prismic.AnyRegularField | prismic.GroupField | prismic.NestedGroupField | prismic.SliceZone
+  >,
+  TLang extends string,
+> =
+  // Content relationship fields
+  {
+    [TSubRelationship in Extract<
+      TRelationship['fields'][number],
+      prismic.CustomTypeModelFetchContentRelationshipLevel1
+    > as TSubRelationship['id']]: ContentRelationshipFieldWithData<TSubRelationship['customtypes'], TLang>;
+  } & // Group
+  {
+    [TGroup in Extract<
+      TRelationship['fields'][number],
+      prismic.CustomTypeModelFetchGroupLevel1 | prismic.CustomTypeModelFetchGroupLevel2
+    > as TGroup['id']]: TData[TGroup['id']] extends prismic.GroupField<infer TGroupData>
+      ? prismic.GroupField<PickContentRelationshipFieldData<TGroup, TGroupData, TLang>>
+      : never;
+  } & // Other fields
+  {
+    [TFieldKey in Extract<TRelationship['fields'][number], string>]: TFieldKey extends keyof TData
+      ? TData[TFieldKey]
+      : never;
+  };
+
+type ContentRelationshipFieldWithData<
+  TCustomType extends
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
+  TLang extends string = string,
+> = {
+  [ID in Exclude<TCustomType[number], string>['id']]: prismic.ContentRelationshipField<
+    ID,
+    TLang,
+    PickContentRelationshipFieldData<
+      Extract<TCustomType[number], { id: ID }>,
+      Extract<prismic.Content.AllDocumentTypes, { type: ID }>['data'],
+      TLang
+    >
+  >;
+}[Exclude<TCustomType[number], string>['id']];
+
 /**
  * Item in *Article → Tags*
  */
@@ -14,14 +64,14 @@ export interface ArticleDocumentDataTagsItem {
    * - **Field Type**: Select
    * - **Placeholder**: Tag
    * - **API ID Path**: article.tags[].tag
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/fields/select
    */
   tag: prismic.SelectField<
     'dev' | 'css' | 'typescript' | 'vue' | 'travel' | 'food' | 'photography' | 'music' | 'games' | 'other'
   >;
 }
 
-type ArticleDocumentDataSlicesSlice = GallerySlice | ContentSlice;
+type ArticleDocumentDataSlicesSlice = CodeSlice | GallerySlice | ContentSlice;
 
 /**
  * Content for Article documents
@@ -34,7 +84,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: Title for the article
    * - **API ID Path**: article.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
   title: prismic.KeyTextField;
 
@@ -45,7 +95,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article.main_image
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/fields/image
    */
   main_image: prismic.ImageField<'big-thumbnail' | 'small-thumbnail'>;
 
@@ -56,7 +106,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article.tags[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#group
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
   tags: prismic.GroupField<Simplify<ArticleDocumentDataTagsItem>>;
 
@@ -67,7 +117,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article.location
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   * - **Documentation**: https://prismic.io/docs/fields/geopoint
    */
   location: prismic.GeoPointField;
 
@@ -78,7 +128,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article.slices[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#slices
+   * - **Documentation**: https://prismic.io/docs/slices
    */
   slices: prismic.SliceZone<ArticleDocumentDataSlicesSlice> /**
    * Meta Title field in *Article*
@@ -87,7 +137,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: A title of the page used for social media and search engines
    * - **API ID Path**: article.meta_title
    * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */;
   meta_title: prismic.KeyTextField;
 
@@ -98,7 +148,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: A brief summary of the page
    * - **API ID Path**: article.meta_description
    * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
   meta_description: prismic.KeyTextField;
 
@@ -109,7 +159,7 @@ interface ArticleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article.meta_image
    * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/fields/image
    */
   meta_image: prismic.ImageField<never>;
 }
@@ -119,7 +169,7 @@ interface ArticleDocumentData {
  *
  * - **API ID**: `article`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/custom-types
+ * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -132,6 +182,64 @@ export type ArticleDocument<Lang extends string = string> = prismic.PrismicDocum
 export type AllDocumentTypes = ArticleDocument;
 
 /**
+ * Primary content in *Code → Default → Primary*
+ */
+export interface CodeSliceDefaultPrimary {
+  /**
+   * Language field in *Code → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: js, ts, vue, etc.
+   * - **API ID Path**: code.default.primary.language
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  language: prismic.SelectField<'ts' | 'vue' | 'css' | 'js' | 'tsx' | 'jsx'>;
+
+  /**
+   * Code field in *Code → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Place code here...
+   * - **API ID Path**: code.default.primary.code
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  code: prismic.RichTextField;
+
+  /**
+   * Filename field in *Code → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: enter a filename
+   * - **API ID Path**: code.default.primary.filename
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  filename: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for Code Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CodeSliceDefault = prismic.SharedSliceVariation<'default', Simplify<CodeSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *Code*
+ */
+type CodeSliceVariation = CodeSliceDefault;
+
+/**
+ * Code Shared Slice
+ *
+ * - **API ID**: `code`
+ * - **Description**: Code
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CodeSlice = prismic.SharedSlice<'code', CodeSliceVariation>;
+
+/**
  * Primary content in *Content → Default → Primary*
  */
 export interface ContentSliceDefaultPrimary {
@@ -141,7 +249,7 @@ export interface ContentSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Content block
    * - **API ID Path**: content.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   text: prismic.RichTextField;
 }
@@ -151,7 +259,7 @@ export interface ContentSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
+ * - **Documentation**: https://prismic.io/docs/slices
  */
 export type ContentSliceDefault = prismic.SharedSliceVariation<'default', Simplify<ContentSliceDefaultPrimary>, never>;
 
@@ -165,7 +273,7 @@ type ContentSliceVariation = ContentSliceDefault;
  *
  * - **API ID**: `content`
  * - **Description**: Content
- * - **Documentation**: https://prismic.io/docs/slice
+ * - **Documentation**: https://prismic.io/docs/slices
  */
 export type ContentSlice = prismic.SharedSlice<'content', ContentSliceVariation>;
 
@@ -179,7 +287,7 @@ export interface GallerySliceDefaultPrimaryImagesItem {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: gallery.default.primary.images[].image
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/fields/image
    */
   image: prismic.ImageField<'thumbnail'>;
 
@@ -189,7 +297,7 @@ export interface GallerySliceDefaultPrimaryImagesItem {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: gallery.default.primary.images[].caption
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
   caption: prismic.KeyTextField;
 }
@@ -204,7 +312,7 @@ export interface GallerySliceDefaultPrimary {
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: gallery.default.primary.images[]
-   * - **Documentation**: https://prismic.io/docs/field#group
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
   images: prismic.GroupField<Simplify<GallerySliceDefaultPrimaryImagesItem>>;
 }
@@ -214,7 +322,7 @@ export interface GallerySliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
+ * - **Documentation**: https://prismic.io/docs/slices
  */
 export type GallerySliceDefault = prismic.SharedSliceVariation<'default', Simplify<GallerySliceDefaultPrimary>, never>;
 
@@ -228,7 +336,7 @@ type GallerySliceVariation = GallerySliceDefault;
  *
  * - **API ID**: `gallery`
  * - **Description**: Gallery
- * - **Documentation**: https://prismic.io/docs/slice
+ * - **Documentation**: https://prismic.io/docs/slices
  */
 export type GallerySlice = prismic.SharedSlice<'gallery', GallerySliceVariation>;
 
@@ -252,6 +360,10 @@ declare module '@prismicio/client' {
       ArticleDocumentDataTagsItem,
       ArticleDocumentDataSlicesSlice,
       AllDocumentTypes,
+      CodeSlice,
+      CodeSliceDefaultPrimary,
+      CodeSliceVariation,
+      CodeSliceDefault,
       ContentSlice,
       ContentSliceDefaultPrimary,
       ContentSliceVariation,

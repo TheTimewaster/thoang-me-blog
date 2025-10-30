@@ -1,0 +1,32 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"language": {
+				"__TYPE__": "FieldContent",
+				"type": "Select",
+				"value": "vue"
+			},
+			"code": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "preformatted",
+						"content": {
+							"text": "<script setup lang=\"ts\">\nimport { Shiki } from '#components';\nimport { getSliceComponentProps } from '#imports';\nimport type { Content } from '@prismicio/client';\n\n// The array passed to `getSliceComponentProps` is purely optional.\n// Consider it as a visual hint for you when templating your slice.\ndefineProps(getSliceComponentProps<Content.CodeSlice>(['slice', 'index', 'slices', 'context']));\n</script>\n\n<template>\n  <section :data-slice-type=\"slice.slice_type\" :data-slice-variation=\"slice.variation\">\n    <Shiki :lang=\"slice.primary.language\" :code=\"slice.primary.code\" />\n  </section>\n</template>",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			},
+			"filename": {
+				"__TYPE__": "FieldContent",
+				"value": "clean",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]

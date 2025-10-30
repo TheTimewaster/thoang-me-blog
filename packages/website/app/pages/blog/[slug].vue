@@ -54,23 +54,3 @@ const article = computed(() => {
   return data.value.data;
 });
 </script>
-
-<style scoped>
-@reference '~/assets/css/main.css';
-
-.prismic-content :deep(p) {
-  @apply mb-4;
-}
-
-.prismic-content :deep(h2) {
-  @apply mb-4 mt-8 font-serif text-2xl font-bold;
-}
-
-.prismic-content :deep(h3) {
-  @apply mb-4 mt-8 font-serif text-xl font-bold;
-}
-
-.prismic-content :deep(ul) {
-  @apply list-inside list-disc;
-}
-</style>
