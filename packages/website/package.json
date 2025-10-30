@@ -30,6 +30,7 @@
   "license": "MIT",
   "devDependencies": {
     "@nuxtjs/prismic": "^4.1.0",
+    "@rollup/plugin-wasm": "^6.2.2",
     "@slicemachine/adapter-nuxt": "^0.3.84",
     "globals": "^16.4.0",
     "slice-machine-ui": "^2.18.2"

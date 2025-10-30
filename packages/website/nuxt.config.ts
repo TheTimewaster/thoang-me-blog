@@ -1,3 +1,4 @@
+import wasm from '@rollup/plugin-wasm';
 import tailwindcss from '@tailwindcss/vite';
 import { apiEndpoint, repositoryName } from './slicemachine.config.json';
 
@@ -47,7 +48,7 @@ export default defineNuxtConfig({
   css: ['./app/assets/css/main.css'],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), wasm()],
     optimizeDeps: {
       include: ['shallowequal', 'lodash/startCase.js'],
     },
